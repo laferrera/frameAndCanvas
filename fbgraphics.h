@@ -582,6 +582,20 @@
     */
     extern void fbg_text(struct _fbg *fbg, struct _fbg_font *fnt, char *text, int x, int y, int r, int g, int b);
 
+    //! draw a text NEW
+    /*!
+      \param fbg pointer to a FBG context / data structure
+      \param text the text to draw ('\n' and ' ' are treated automatically)
+      \param x
+      \param y
+      \param r
+      \param g
+      \param b
+      \sa fbg_createFont(), fbg_write(), fbg_textColorkey(), fbg_textBackground()
+    */
+
+    extern void fbg_text_new(struct _fbg *fbg, const char *text, int x, int y, uint8_t r, uint8_t g, uint8_t b);
+
     //! free the memory associated with a font
     /*!
       \param font _fbg_font structure pointer

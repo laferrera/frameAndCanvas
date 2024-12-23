@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "fbgraphics.h"
+#include "font.h"
 
 struct _fbg *fbg_customSetup(
         int width, int height,
@@ -661,7 +662,35 @@ void fbg_text(struct _fbg *fbg, struct _fbg_font *fnt, char *text, int x, int y,
     }
 }
 
-void fbg_freeFont(struct _fbg_font *font) {
+void fbg_text_new(struct _fbg *fbg, const char *text, int x, int y, uint8_t r, uint8_t g, uint8_t b) {
+  int char_width = 8;
+  int char_height = 8;
+
+  while (*text) {
+    char c = *text++;
+
+    // Only render printable ASCII characters (32 to 126)
+    if (c < 32 || c > 126) {
+      continue;
+    }
+
+    // Get the character's bitmap from the font array
+    const uint8_t *char_bitmap = font[c - 32];
+
+    // Render the character
+    for (int row = 0; row < char_height; row++) {
+      for (int col = 0; col < char_width; col++) {
+        if (char_bitmap[row] & (1 << (7 - col))) {
+          fbg_pixel(fbg, x + col, y + row, r, g, b);
+        }
+      }
+    }
+
+    // Move the x position for the next character
+    x += char_width;
+  }
+
+  void fbg_freeFont(struct _fbg_font * font) {
     free(font->glyph_coord_x);
     free(font->glyph_coord_y);
 
