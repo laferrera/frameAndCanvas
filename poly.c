@@ -7,14 +7,14 @@
 
 int keep_running = 1;
 
-#define NUM_ELEMS 12
+#define NUM_ELEMS 10
 
 int xs[NUM_ELEMS];
 int ys[NUM_ELEMS];
 int dxs[NUM_ELEMS];
 int dys[NUM_ELEMS];
 
-int vertex_size = 4;
+int vertex_size = 2;
 
 void initialize_elements(struct _fbg *fbg, int w, int h) {
   for (int n = 0; n < NUM_ELEMS; n++) {
