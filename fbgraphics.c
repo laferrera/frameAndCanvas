@@ -689,6 +689,7 @@ void fbg_text_new(struct _fbg *fbg, const char *text, int x, int y, uint8_t r, u
     // Move the x position for the next character
     x += char_width;
   }
+}
 
   void fbg_freeFont(struct _fbg_font * font) {
     free(font->glyph_coord_x);
