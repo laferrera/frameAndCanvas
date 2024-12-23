@@ -85,7 +85,7 @@ int main(int argc, char *argv[]) {
 
     fbg_draw(fbg);
 
-    update_and_draw_elements(fbg, fbg->width, fbg->height);
+    update_and_draw_elements(fbg, 2, 2);
     // draw_lines_between_elements(fbg);
 
     fbg_flip(fbg);
