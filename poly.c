@@ -79,13 +79,12 @@ int main(int argc, char *argv[]) {
   }
 
   do {
-    x_offset = (x_offset + 1) % fbg->width;
 
     fbg_clear(fbg, 0); // can also be replaced by fbg_background(fbg, 0, 0, 0);
 
     fbg_draw(fbg);
 
-    update_and_draw_elements(fbg, rect_width, rect_height);
+    update_and_draw_elements(fbg, fbg->width, fbg->height);
     draw_lines_between_elements(fbg);
 
     fbg_flip(fbg);
