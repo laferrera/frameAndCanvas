@@ -14,7 +14,7 @@ int ys[NUM_ELEMS];
 int dxs[NUM_ELEMS];
 int dys[NUM_ELEMS];
 
-int vertex_size = 2;
+int vertex_size = 4;
 
 void initialize_elements(struct _fbg *fbg, int w, int h) {
   for (int n = 0; n < NUM_ELEMS; n++) {
