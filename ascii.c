@@ -85,7 +85,7 @@ int main(int argc, char *argv[]) {
 
     fbg_draw(fbg);
     update_elements(fbg, 40, 8);
-    draw_elements(fbg, "JASON");
+    draw_elements(fbg, "MOLLY");
     // fbg_text_new(fbg, "JASON", 10, 10, 255, 255, 255);
 
     fbg_flip(fbg);
