@@ -1,4 +1,8 @@
 
+fbset -fb /dev/fb0 -g 720 720 720 1440 24 -vsync high
+
 gcc fbg_fbdev.c fbgraphics.c tiny.c -I. -Werror -std=c11 -pedantic -D_GNU_SOURCE -D_POSIX_SOURCE -fdata-sections -ffunction-sections -flto -DWITHOUT_STB_IMAGE -DWITHOUT_JPEG -DWITHOUT_PNG -Os -o tiny -Wl,--gc-sections,-flto
 
 gcc fbg_fbdev.c fbgraphics.c poly.c -I. -Werror -std=c11 -pedantic -D_GNU_SOURCE -D_POSIX_SOURCE -fdata-sections -ffunction-sections -flto -DWITHOUT_STB_IMAGE -DWITHOUT_JPEG -DWITHOUT_PNG -Os -o poly -Wl,--gc-sections,-flto
+
+gcc fbg_fbdev.c fbgraphics.c poly.c -I. -Werror -std=c11 -pedantic -D_GNU_SOURCE -D_POSIX_SOURCE -fdata-sections -ffunction-sections -flto -Os -o poly -Wl,--gc-sections,-flto
