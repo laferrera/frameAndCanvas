@@ -3,6 +3,7 @@
 
 #include "fbg_fbdev.h" // insert any backends from ../custom_backend/backend_name folder
 #include "fbgraphics.h"
+#include <stdlib.h>
 
 int keep_running = 1;
 
