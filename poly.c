@@ -14,6 +14,8 @@ int ys[NUM_ELEMS];
 int dxs[NUM_ELEMS];
 int dys[NUM_ELEMS];
 
+int vertex_size = 2;
+
 void initialize_elements(struct _fbg *fbg, int w, int h) {
   for (int n = 0; n < NUM_ELEMS; n++) {
     xs[n] = rand() % (fbg->width - w);
@@ -79,18 +81,21 @@ int main(int argc, char *argv[]) {
     return 0;
   }
 
+  initialize_elements(fbg, vertex_size, vertex_size);
+
   do {
 
     fbg_clear(fbg, 0); // can also be replaced by fbg_background(fbg, 0, 0, 0);
 
     fbg_draw(fbg);
 
-    update_and_draw_elements(fbg, 2, 2);
+    update_and_draw_elements(fbg, vertex_size, vertex_size);
     // draw_lines_between_elements(fbg);
 
     fbg_flip(fbg);
-
-  } while (keep_running);
+  }
+  while (keep_running)
+    ;
 
   fbg_close(fbg);
 
