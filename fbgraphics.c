@@ -662,9 +662,9 @@ void fbg_text(struct _fbg *fbg, struct _fbg_font *fnt, char *text, int x, int y,
     }
 }
 
-void fbg_text_new(struct _fbg *fbg, const char *text, int x, int y, uint8_t r, uint8_t g, uint8_t b) {
-  int char_width = 1 * FONT_WIDTH;
-  int char_height = 1 * FONT_HEIGHT;
+void fbg_text_new(struct _fbg *fbg, const char *text, int x, int y, int font_size, uint8_t r, uint8_t g, uint8_t b) {
+  int char_width = FONT_WIDTH * font_size;   // Calculate scaled character width
+  int char_height = FONT_HEIGHT * font_size; // Calculate scaled character height
 
   while (*text) {
     char c = *text++;
@@ -675,13 +675,18 @@ void fbg_text_new(struct _fbg *fbg, const char *text, int x, int y, uint8_t r, u
     }
 
     // Get the character's bitmap from the font array
-    const uint8_t *char_bitmap = font[c - 32];
+    const uint8_t *char_bitmap = font[c - FONT_FIRST_CHAR];
 
     // Render the character
-    for (int row = 0; row < char_height; row++) {
-      for (int col = 0; col < char_width; col++) {
+    for (int row = 0; row < FONT_HEIGHT; row++) {  // Iterate over original character height
+      for (int col = 0; col < FONT_WIDTH; col++) { // Iterate over original character width
         if (char_bitmap[row] & (1 << (7 - col))) {
-          fbg_pixel(fbg, x + col, y + row, r, g, b);
+          // Scale the pixel by `font_size`
+          for (int dy = 0; dy < font_size; dy++) {   // Scale vertically
+            for (int dx = 0; dx < font_size; dx++) { // Scale horizontally
+              fbg_pixel(fbg, x + col * font_size + dx, y + row * font_size + dy, r, g, b);
+            }
+          }
         }
       }
     }
