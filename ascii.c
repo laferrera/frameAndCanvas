@@ -58,7 +58,7 @@ void update_elements(struct _fbg *fbg, int w, int h) {
 
 void draw_elements(struct _fbg *fbg, const char *text){
   for (int n = 0; n < NUM_ELEMS; n++) {
-    fbg_text_new(fbg, "text", xs[n], ys[n], (n * 15) % 255, ((NUM_ELEMS-n) * 25) % 255, ((n) * 35) % 255);
+    fbg_text_new(fbg, text, xs[n], ys[n], (n * 15) % 255, ((NUM_ELEMS-n) * 25) % 255, ((n) * 35) % 255);
   }
   }
 
