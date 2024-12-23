@@ -442,17 +442,6 @@
     extern struct _fbg_img *fbg_createImage(struct _fbg *fbg, unsigned int width, unsigned int height);
 
 
-
-    //! load an image from memory (STB Image library)
-    /*!
-      \param fbg pointer to a FBG context / data structure
-      \param data The image data from memory.
-      \param size The size of the image in bytes.
-      \return _fbg_img data structure pointer
-      \sa fbg_freeImage(), fbg_image(), fbg_imageFlip(), fbg_createFont(), fbg_imageClip(), fbg_loadPNG(), fbg_loadJPEG(), fbg_imageEx(), fbg_imageScale(), fbg_imageColorkey()
-    */
-
-
     //! load an image from memory
     /*!
       \param fbg pointer to a FBG context / data structure
