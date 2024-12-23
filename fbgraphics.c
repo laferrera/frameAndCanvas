@@ -663,8 +663,8 @@ void fbg_text(struct _fbg *fbg, struct _fbg_font *fnt, char *text, int x, int y,
 }
 
 void fbg_text_new(struct _fbg *fbg, const char *text, int x, int y, uint8_t r, uint8_t g, uint8_t b) {
-  int char_width = 8;
-  int char_height = 8;
+  int char_width = 1 * FONT_WIDTH;
+  int char_height = 1 * FONT_HEIGHT;
 
   while (*text) {
     char c = *text++;
