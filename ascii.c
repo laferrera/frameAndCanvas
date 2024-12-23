@@ -25,47 +25,42 @@ void initialize_elements(struct _fbg *fbg, int w, int h) {
   }
 }
 
-// void update_and_draw_elements(struct _fbg *fbg, int w, int h) {
-//   for (int n = 0; n < NUM_ELEMS; n++) {
-//     int x = xs[n];
-//     int y = ys[n];
-//     int dx = dxs[n];
-//     int dy = dys[n];
+void update_elements(){
+  for (int n = 0; n < NUM_ELEMS; n++) {
 
-//     // Set fill color for the rectangle
-//     // fbg_fill(fbg, (n * 20) % 255, (n * 40) % 255, (n * 60) % 255);
-//     // fbg_frect(fbg, x, y, w, h);
+    int x = xs[n];
+    int y = ys[n];
+    int dx = dxs[n];
+    int dy = dys[n];
 
-//     // Update position
-//     x += dx;
-//     y += dy;
+    // Update position
+    x += dx;
+    y += dy;
 
-//     // Check for boundaries and bounce
-//     if (x < 0 || x > (fbg->width - w)) {
-//       dx = -dx;
-//       x += 2 * dx;
-//     }
-//     if (y < 0 || y > (fbg->height - h)) {
-//       dy = -dy;
-//       y += 2 * dy;
-//     }
+    // Check for boundaries and bounce
+    if (x < 0 || x > (fbg->width - w)) {
+      dx = -dx;
+      x += 2 * dx;
+    }
+    if (y < 0 || y > (fbg->height - h)) {
+      dy = -dy;
+      y += 2 * dy;
+    }
 
-//     // Save updated positions and directions
-//     xs[n] = x;
-//     ys[n] = y;
-//     dxs[n] = dx;
-//     dys[n] = dy;
-//   }
-// }
+    // Save updated positions and directions
+    xs[n] = x;
+    ys[n] = y;
+    dxs[n] = dx;
+    dys[n] = dy;
 
-// void draw_lines_between_elements(struct _fbg *fbg) {
-//   for (int j = 0; j < NUM_ELEMS; j++) {
-//     for (int k = 0; k < NUM_ELEMS; k++) {
-//       fbg_line(fbg, xs[j] + 1, ys[j] + 1, xs[k] + 1, ys[k] + 1,
-//                (j * 15) % 255, (k * 25) % 255, ((j + k) * 35) % 255);
-//     }
-//   }
-// }
+  }
+}
+
+void draw_elements(struct _fbg *fbg, const char *text){
+  for (int n = 0; n < NUM_ELEMS; n++) {
+    fbg_text_new(fbg, "text", xs[n], ys[n], (j * 15) % 255, (k * 25) % 255, ((j + k) * 35) % 255);
+  }
+  }
 
 void int_handler(int dummy) {
   keep_running = 0;
@@ -88,11 +83,9 @@ int main(int argc, char *argv[]) {
     fbg_clear(fbg, 0); // can also be replaced by fbg_background(fbg, 0, 0, 0);
 
     fbg_draw(fbg);
-    fbg_text_new(fbg, "JASON", 10, 10, 255, 255, 255);
-
-    // update_and_draw_elements(fbg, vertex_size, vertex_size);
-    // draw_lines_between_elements(fbg);
-
+    update_elements();
+    draw_elements(fbg, "JASON");
+    // fbg_text_new(fbg, "JASON", 10, 10, 255, 255, 255);
 
     fbg_flip(fbg);
   }
