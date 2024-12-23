@@ -6,3 +6,5 @@ gcc fbg_fbdev.c fbgraphics.c tiny.c -I. -Werror -std=c11 -pedantic -D_GNU_SOURCE
 gcc fbg_fbdev.c fbgraphics.c poly.c -I. -Werror -std=c11 -pedantic -D_GNU_SOURCE -D_POSIX_SOURCE -fdata-sections -ffunction-sections -flto -DWITHOUT_STB_IMAGE -DWITHOUT_JPEG -DWITHOUT_PNG -Os -o poly -Wl,--gc-sections,-flto
 
 gcc fbg_fbdev.c fbgraphics.c persp.c -I. -Werror -std=c11 -pedantic -D_GNU_SOURCE -D_POSIX_SOURCE -fdata-sections -ffunction-sections -flto -Os -o persp -Wl,--gc-sections,-flto
+
+gcc fbg_fbdev.c fbgraphics.c ascii.c -I. -Werror -std=c11 -pedantic -D_GNU_SOURCE -D_POSIX_SOURCE -fdata-sections -ffunction-sections -flto -Os -o ascii -Wl,--gc-sections,-flto

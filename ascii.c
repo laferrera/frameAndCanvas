@@ -88,7 +88,7 @@ int main(int argc, char *argv[]) {
     fbg_clear(fbg, 0); // can also be replaced by fbg_background(fbg, 0, 0, 0);
 
     fbg_draw(fbg);
-    fbg_text_new("JASON", 10, 10, 255, 255, 255);
+    fbg_text_new(fbg, "JASON", 10, 10, 255, 255, 255);
 
     // update_and_draw_elements(fbg, vertex_size, vertex_size);
     // draw_lines_between_elements(fbg);
