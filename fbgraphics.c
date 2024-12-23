@@ -73,16 +73,6 @@ struct _fbg *fbg_customSetup(
 
     fbg->allow_resizing = allow_resizing;
 
-#ifdef FBG_PARALLEL
-    fbg->state = 1;
-    fbg->frame = 0;
-    fbg->fps = 0;
-
-    fbg->tasks = 0;
-
-    fbg->fragment_queue_size = 7;
-#endif
-
     fbg->new_width = 0;
     fbg->new_height = 0;
 
