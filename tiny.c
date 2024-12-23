@@ -5,6 +5,7 @@
 #include "fbg_fbdev.h" // insert any backends from ../custom_backend/backend_name folder
 
 int keep_running = 1;
+int x_offset = 0;
 
 void int_handler(int dummy) {
     keep_running = 0;
@@ -21,13 +22,17 @@ int main(int argc, char* argv[]) {
     }
     
     do {
+        x_offset = (x_offset + 1) % fbg->width;
+
         fbg_clear(fbg, 0); // can also be replaced by fbg_background(fbg, 0, 0, 0);
 
         fbg_draw(fbg);
 
         fbg_rect(fbg, fbg->width / 2 - 8, fbg->height / 2 - 8, 16, 16, 0, 255, 0);
 
-        fbg_pixel(fbg, fbg->width / 2, fbg->height / 2, 255, 0, 0);
+        fbg_rect(fbg, xOffset, fbg->height / 4 - 8, 16, 16, 0, 0, 255);
+
+        // fbg_pixel(fbg, fbg->width / 2, fbg->height / 2, 255, 0, 0);
 
         fbg_flip(fbg);
 
