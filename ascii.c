@@ -25,7 +25,7 @@ void initialize_elements(struct _fbg *fbg, int w, int h) {
   }
 }
 
-void update_elements(){
+void update_elements(struct _fbg *fbg, int w, int h) {
   for (int n = 0; n < NUM_ELEMS; n++) {
 
     int x = xs[n];
@@ -37,8 +37,6 @@ void update_elements(){
     x += dx;
     y += dy;
 
-    int w = 40;
-    int h = 8;
     // Check for boundaries and bounce
     if (x < 0 || x > (fbg->width - w)) {
       dx = -dx;
@@ -60,7 +58,7 @@ void update_elements(){
 
 void draw_elements(struct _fbg *fbg, const char *text){
   for (int n = 0; n < NUM_ELEMS; n++) {
-    fbg_text_new(fbg, "text", xs[n], ys[n], (j * 15) % 255, (k * 25) % 255, ((j + k) * 35) % 255);
+    fbg_text_new(fbg, "text", xs[n], ys[n], (n * 15) % 255, ((NUM_ELEMS-n) * 25) % 255, ((n) * 35) % 255);
   }
   }
 
@@ -85,7 +83,7 @@ int main(int argc, char *argv[]) {
     fbg_clear(fbg, 0); // can also be replaced by fbg_background(fbg, 0, 0, 0);
 
     fbg_draw(fbg);
-    update_elements();
+    update_elements(fbg, 40, 8);
     draw_elements(fbg, "JASON");
     // fbg_text_new(fbg, "JASON", 10, 10, 255, 255, 255);
 
