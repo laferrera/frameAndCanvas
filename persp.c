@@ -25,7 +25,6 @@ void update_and_draw_elements(struct _fbg *fbg, int w, int h) {
   for (int n = 0; n < NUM_ELEMS; n++) {
     int y = ys[n];
     int dy = dys[n];
-    x += dx;
     y += dy;
 
     // if (y < 0 || y > (fbg->height - h)) {
