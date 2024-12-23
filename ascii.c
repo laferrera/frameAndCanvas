@@ -37,6 +37,8 @@ void update_elements(){
     x += dx;
     y += dy;
 
+    int w = 40;
+    int h = 8;
     // Check for boundaries and bounce
     if (x < 0 || x > (fbg->width - w)) {
       dx = -dx;
