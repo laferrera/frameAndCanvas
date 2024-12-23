@@ -36,13 +36,15 @@ void update_elements(struct _fbg *fbg, int w, int h) {
     // Update position
     x += dx;
     y += dy;
+    int mult = n + 1;
+
 
     // Check for boundaries and bounce
-    if (x < 0 || x > (fbg->width - w)) {
+    if (x < 0 || x > (fbg->width - (mult * w))) {
       dx = -dx;
       x += 2 * dx;
     }
-    if (y < 0 || y > (fbg->height - h)) {
+    if (y < 0 || y > (fbg->height - (mult * h))) {
       dy = -dy;
       y += 2 * dy;
     }
@@ -52,13 +54,12 @@ void update_elements(struct _fbg *fbg, int w, int h) {
     ys[n] = y;
     dxs[n] = dx;
     dys[n] = dy;
-
   }
 }
 
 void draw_elements(struct _fbg *fbg, const char *text){
   for (int n = 0; n < NUM_ELEMS; n++) {
-    fbg_text_new(fbg, text, xs[n], ys[n], (n + 1), (n * 15) % 255, ((NUM_ELEMS-n) * 25) % 255, ((n) * 35) % 255);
+    fbg_text_new(fbg, text, xs[n], ys[n], n + 1), (n * 15) % 255, ((NUM_ELEMS-n) * 25) % 255, ((n) * 35) % 255);
   }
   }
 
