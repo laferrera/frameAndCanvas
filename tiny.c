@@ -30,7 +30,7 @@ int main(int argc, char* argv[]) {
 
         fbg_rect(fbg, fbg->width / 2 - 8, fbg->height / 2 - 8, 16, 16, 0, 255, 0);
 
-        fbg_rect(fbg, xOffset, fbg->height / 4 - 8, 16, 16, 0, 0, 255);
+        fbg_rect(fbg, x_offset, fbg->height / 4 - 8, 16, 16, 0, 0, 255);
 
         // fbg_pixel(fbg, fbg->width / 2, fbg->height / 2, 255, 0, 0);
 
