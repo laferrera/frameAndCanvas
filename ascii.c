@@ -42,11 +42,11 @@ void update_elements(struct _fbg *fbg, int w, int h) {
     // Check for boundaries and bounce
     if (x < 0 || x > (fbg->width - (mult * w))) {
       dx = -dx;
-      x += 2 * dx;
+      x += mult * 2 * dx;
     }
     if (y < 0 || y > (fbg->height - (mult * h))) {
       dy = -dy;
-      y += 2 * dy;
+      y += mult* 2 * dy;
     }
 
     // Save updated positions and directions
