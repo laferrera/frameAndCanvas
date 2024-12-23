@@ -1,30 +1,3 @@
-/*
-    Copyright (c) 2018, 2019, 2020 Julien Verneuil
-    All rights reserved.
-
-    Redistribution and use in source and binary forms, with or without
-    modification, are permitted provided that the following conditions are met:
-        * Redistributions of source code must retain the above copyright
-        notice, this list of conditions and the following disclaimer.
-        * Redistributions in binary form must reproduce the above copyright
-        notice, this list of conditions and the following disclaimer in the
-        documentation and/or other materials provided with the distribution.
-        * Neither the name of the organization nor the
-        names of its contributors may be used to endorse or promote products
-        derived from this software without specific prior written permission.
-
-    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-    ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-    WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-    DISCLAIMED. IN NO EVENT SHALL Julien Verneuil BE LIABLE FOR ANY
-    DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-    (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-    LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-    ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-    (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
-
 #ifndef FB_GRAPHICS_H
 #define FB_GRAPHICS_H
 
@@ -33,39 +6,6 @@
     #include <stdint.h>
     #include <math.h>
 
-#ifdef FBG_PARALLEL
-    #include <stdatomic.h>
-    #include <pthread.h>
-
-// compatibility layer for liblfds 711 version (because 720 was unreleased at the time of writing this)
-#ifdef FBG_LFDS
-#ifdef LFDS711
-    #include "liblfds711.h"
-
-    #define lfds720_freelist_n_element lfds711_freelist_element
-    #define lfds720_ringbuffer_n_element lfds711_ringbuffer_element
-    #define lfds720_ringbuffer_n_state lfds711_ringbuffer_state
-    #define lfds720_freelist_n_state lfds711_freelist_state
-    #define LFDS720_PAL_ATOMIC_ISOLATION_LENGTH_IN_BYTES LFDS711_PAL_ATOMIC_ISOLATION_IN_BYTES
-    #define lfds720_ringbuffer_n_init_valid_on_current_logical_core lfds711_ringbuffer_init_valid_on_current_logical_core
-    #define lfds720_freelist_n_init_valid_on_current_logical_core lfds711_freelist_init_valid_on_current_logical_core
-    #define LFDS720_FREELIST_N_SET_VALUE_IN_ELEMENT LFDS711_FREELIST_SET_VALUE_IN_ELEMENT
-    #define LFDS720_FREELIST_N_GET_VALUE_FROM_ELEMENT LFDS711_FREELIST_GET_VALUE_FROM_ELEMENT
-    #define lfds720_freelist_n_threadsafe_push lfds711_freelist_push
-    #define lfds720_freelist_n_threadsafe_pop lfds711_freelist_pop
-    #define lfds720_ringbuffer_n_cleanup lfds711_ringbuffer_cleanup
-    #define lfds720_freelist_n_cleanup lfds711_freelist_cleanup
-    #define lfds720_ringbuffer_n_read lfds711_ringbuffer_read
-    #define lfds720_ringbuffer_n_write lfds711_ringbuffer_write
-    #define lfds720_misc_flag lfds711_misc_flag
-    #define LFDS720_MISC_FLAG_RAISED LFDS711_MISC_FLAG_RAISED
-    #define LFDS720_MISC_MAKE_VALID_ON_CURRENT_LOGICAL_CORE_INITS_COMPLETED_BEFORE_NOW_ON_ANY_OTHER_PHYSICAL_CORE LFDS711_MISC_MAKE_VALID_ON_CURRENT_LOGICAL_CORE_INITS_COMPLETED_BEFORE_NOW_ON_ANY_OTHER_LOGICAL_CORE
-    #define lfds720_pal_uint_t lfds711_pal_uint_t
-#else
-    #include "liblfds720.h"
-#endif
-#endif
-#endif
 
 // ### Library structures
 
@@ -181,11 +121,7 @@
         int new_height;
 
         //! Current FPS
-#ifdef FBG_PARALLEL
-        atomic_uint_fast16_t fps;
-#else
         int16_t fps;
-#endif
 
         //! Current FPS as a string
         char fps_char[10];
@@ -217,81 +153,8 @@
         //! currently processed task buffer (assigned before compositing function is called in fbg_draw)
         //unsigned char *curr_task_buffer;
 
-#ifdef FBG_PARALLEL
-        //! Total number of actual parallel tasks
-        unsigned int parallel_tasks;
-
-        //! pthread array of tasks
-        pthread_t *tasks;
-
-        //! Array of tasks data structure
-        struct _fbg_fragment **fragments;
-
-        //! FBG synchronization barrier
-        pthread_barrier_t *sync_barrier;
-
-        //! Task id associated to that FBG context
-        int task_id;
-
-        //! FBG context running state
-        atomic_int state;
-
-        //! Ringbuffer queue length (1 by default, best settings with sync. since we just wait till all threads finish)
-        //! Note : This settings may have an impact on feedback effects (since it will pick sequentially buffers from the list, thus allowing a number of "past" rendered frame which may not be what you want with regular feedback effects but also may be what you want for other effects like unlimited blobs...)
-        unsigned int fragment_queue_size;
-#endif
     };
 
-#ifdef FBG_PARALLEL
-#ifdef FBG_LFDS
-    //! Freelist data structure
-    /*! Hold pre-allocated data associated with a task */
-    struct _fbg_freelist_data {
-        struct lfds720_freelist_n_element freelist_element;
-
-        unsigned char *buffer;
-    };
-  #endif
-
-    //! Task (fragment) data structure
-    /*! Hold a task data */
-    struct _fbg_fragment {
-        //! Fragment running state
-        atomic_int state;
-
-        //! Task own FBG context
-        struct _fbg *fbg;
-
-#ifdef FBG_LFDS
-        //! Ringbuffer element
-        struct lfds720_ringbuffer_n_element *ringbuffer_element;
-        //! Ringbuffer state
-        struct lfds720_ringbuffer_n_state *ringbuffer_state;
-
-        //! Freelist state
-        struct lfds720_freelist_n_state *freelist_state;
-
-        //! Pre-allocated tasks data
-        struct _fbg_freelist_data *fbg_freelist_data;
-
-        //! Temporary task data
-        struct _fbg_freelist_data *tmp_fbg_freelist_data; 
-#endif
-
-        //! thread <> main thread synchronization
-        atomic_int sync_wait;
-
-        //! User-defined task start function
-        void *(*user_fragment_start)(struct _fbg *fbg);
-        //! User-defined task function
-        void (*user_fragment)(struct _fbg *fbg, void *user_data);
-        //! User-defined task end function
-        void (*user_fragment_stop)(struct _fbg *fbg, void *user_data);
-
-        //! User-defined data
-        void *user_data;
-    };
-#endif
 
 // ### Library functions
 
@@ -556,22 +419,11 @@
       \sa fbg_hslToRGB()
     */
     extern void fbg_rgbToHsl(struct _fbg_hsl *color, float r, float g, float b);
-
-#ifdef FBG_PARALLEL
-    //! draw to the screen
-    /*!
-      \param fbg pointer to a FBG context / data structure
-      \param sync_with_task 1 = wait for all fragment tasks to be finished before rendering
-      \param user_mixing a function used to mix the result of fragment tasks
-    */
-    extern void fbg_draw(struct _fbg *fbg, void (*user_mixing)(struct _fbg *fbg, unsigned char *buffer, int task_id));
-#else
     //! draw to the screen
     /*!
       \param fbg pointer to a FBG context / data structure
     */
     extern void fbg_draw(struct _fbg *fbg);
-#endif
 
     //! flip the buffers
     /*!
@@ -589,49 +441,7 @@
     */
     extern struct _fbg_img *fbg_createImage(struct _fbg *fbg, unsigned int width, unsigned int height);
 
-#ifndef WITHOUT_STDIO
-    //! load a PNG image from a file (lodePNG library)
-    /*!
-      \param fbg pointer to a FBG context / data structure
-      \param filename PNG image filename
-      \return _fbg_img data structure pointer
-      \sa fbg_freeImage(), fbg_image(), fbg_imageFlip(), fbg_createFont(), fbg_imageClip(), fbg_loadJPEG(), fbg_loadImage(), fbg_imageEx(), fbg_imageScale(), fbg_imageColorkey()
-    */
-#ifndef WITHOUT_PNG
-    extern struct _fbg_img *fbg_loadPNG(struct _fbg *fbg, const char *filename);
-#endif
 
-    //! load a JPEG image from a file (NanoJPEG library)
-    /*!
-      \param fbg pointer to a FBG context / data structure
-      \param filename JPEG image filename
-      \return _fbg_img data structure pointer
-      \sa fbg_freeImage(), fbg_image(), fbg_imageFlip(), fbg_createFont(), fbg_imageClip(), fbg_loadPNG(), fbg_loadImage(), fbg_imageEx(), fbg_imageScale(), fbg_imageColorkey()
-    */
-#ifndef WITHOUT_JPEG
-    extern struct _fbg_img *fbg_loadJPEG(struct _fbg *fbg, const char *filename);
-#endif
-
-    //! load an image from a file (STB Image library)
-    /*!
-      \param fbg pointer to a FBG context / data structure
-      \param filename image filename
-      \return _fbg_img data structure pointer
-      \sa fbg_freeImage(), fbg_image(), fbg_imageFlip(), fbg_createFont(), fbg_imageClip(), fbg_loadImage(), fbg_imageEx(), fbg_imageScale(), fbg_imageColorkey()
-    */
-#ifndef WITHOUT_STB_IMAGE
-    extern struct _fbg_img *fbg_loadSTBImage(struct _fbg *fbg, const char *filename);
-#endif
-
-    //! load an image (PNG or JPEG)
-    /*!
-      \param fbg pointer to a FBG context / data structure
-      \param filename JPEG/PNG image filename
-      \return _fbg_img data structure pointer
-      \sa fbg_freeImage(), fbg_image(), fbg_imageFlip(), fbg_createFont(), fbg_imageClip(), fbg_loadPNG(), fbg_loadJPEG(), fbg_imageEx(), fbg_imageScale(), fbg_imageColorkey()
-    */
-    extern struct _fbg_img *fbg_loadImage(struct _fbg *fbg, const char *filename);
-#endif // WITHOUT_STDIO
 
     //! load an image from memory (STB Image library)
     /*!
@@ -641,9 +451,7 @@
       \return _fbg_img data structure pointer
       \sa fbg_freeImage(), fbg_image(), fbg_imageFlip(), fbg_createFont(), fbg_imageClip(), fbg_loadPNG(), fbg_loadJPEG(), fbg_imageEx(), fbg_imageScale(), fbg_imageColorkey()
     */
-#ifndef WITHOUT_STB_IMAGE
-    extern struct _fbg_img *fbg_loadSTBImageFromMemory(struct _fbg *fbg, const unsigned char *data, int size);
-#endif
+
 
     //! load an image from memory
     /*!
@@ -827,18 +635,6 @@
       \return pseudo random number between min / max
     */
     extern float fbg_randf(float min, float max);
-
-#ifdef FBG_PARALLEL
-    //! create a FB Graphics parallel task (also called a 'fragment')
-    /*!
-      \param fbg pointer to a FBG context / data structure
-      \param fragment_start a function taking a _fbg structure as argument
-      \param fragment a function taking a _fbg structure as argument and user_data pointer
-      \param fragment_stop a function taking user_data pointer as argument
-      \param parallel_tasks the number of parallel tasks to register
-    */
-    extern void fbg_createFragment(struct _fbg *fbg, void *(*fragment_start)(struct _fbg *fbg), void (*fragment)(struct _fbg *fbg, void *user_data), void (*fragment_stop)(struct _fbg *fbg, void *user_data), unsigned int parallel_tasks);
-#endif
 
 // ### Helper functions
     //! background fade to black with controllable factor
