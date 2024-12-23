@@ -33,8 +33,8 @@ void update_and_draw_elements(struct _fbg *fbg, int w, int h) {
     int dy = dys[n];
 
     // Set fill color for the rectangle
-    fbg_fill(fbg, (n * 20) % 255, (n * 40) % 255, (n * 60) % 255);
-    fbg_frect(fbg, x, y, w, h);
+    // fbg_fill(fbg, (n * 20) % 255, (n * 40) % 255, (n * 60) % 255);
+    // fbg_frect(fbg, x, y, w, h);
 
     // Update position
     x += dx;
