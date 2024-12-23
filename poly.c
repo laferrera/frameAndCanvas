@@ -90,7 +90,7 @@ int main(int argc, char *argv[]) {
     fbg_draw(fbg);
 
     update_and_draw_elements(fbg, vertex_size, vertex_size);
-    // draw_lines_between_elements(fbg);
+    draw_lines_between_elements(fbg);
 
     fbg_flip(fbg);
   }
