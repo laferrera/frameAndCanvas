@@ -13,11 +13,12 @@ void int_handler(int dummy) {
 }
 
 int frame_counter = 0;
-char line[64] = "ABCD$$$!@#!@#>>>>>>><<<<<<<";
+int line_length = 22;
+char line[line_length] = "ABCD$$$!@#!@#>>>>>>><<<<<<<";
 int font_size = 4;
 
 void update_line() {
-  for (int i = 0; i < 63; i++) {
+  for (int i = 0; i < line_length; i++) {
     line[i] = (rand() % 90 + 32); // Random printable ASCII character
   }
 }
