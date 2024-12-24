@@ -1,10 +1,10 @@
 #include <signal.h>
 #include <stdlib.h>
 #include <sys/stat.h>
+#include <string.h>
 
 #include "fbg_fbdev.h" // Insert any backends from ../custom_backend/backend_name folder
 #include "fbgraphics.h"
-#include "<string.h>"
 
 int keep_running = 1;
 
