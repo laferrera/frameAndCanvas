@@ -39,8 +39,8 @@ int main(int argc, char *argv[]) {
     fbg_clear(fbg, 0); // Clear screen
 
     // Render the updated lines
-    for (int i = 0; i < fbg->height / (FONT_HEIGHT * font_size); i++) {
-      fbg_text_new(fbg, line, 0, i * FONT_HEIGHT * font_size, font_size, 255, 255, 255);
+    for (int i = 0; i < fbg->height / (8 * font_size); i++) {
+      fbg_text_new(fbg, line, 0, i * 8 * font_size, font_size, 255, 255, 255);
     }
 
     fbg_flip(fbg); // Flip buffers
