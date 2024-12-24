@@ -13,7 +13,7 @@ void int_handler(int dummy) {
 }
 
 int frame_counter = 0;
-char line[64] = "ABCD$$$";
+char line[64] = "ABCD$$$!@#!@#>>>>>>><<<<<<<";
 int font_size = 4;
 
 void update_line() {
@@ -45,7 +45,7 @@ int main(int argc, char *argv[]) {
     int line_length = strlen(line); // Length of the line
     for (int i = 0; i < fbg->height / (8 * font_size); i++) {
       // Calculate the starting index of the line, wrapping around if necessary
-      const char *offset_line = line + (i % line_length);
+      const char *offset_line = line + frame_counter + (i % line_length);
 
       // Render the line
       fbg_text_new(fbg, offset_line, 0, i * 8 * font_size, font_size, 255, 255, 255);
