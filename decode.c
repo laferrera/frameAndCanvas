@@ -44,7 +44,7 @@ int main(int argc, char *argv[]) {
     fbg_clear(fbg, 0); // can also be replaced by fbg_background(fbg, 0, 0, 0);
 
     fbg_draw(fbg);
-    update_elements(fbg, 40, 8);
+    // update_elements(fbg, 40, 8);
 
     for (int i = 0; i < fbg->height % font_size; i++){
       fbg_text_new(fbg, line, 0, i * font_size, font_size, 255, 255, 255);
