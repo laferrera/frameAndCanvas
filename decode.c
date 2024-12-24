@@ -12,7 +12,7 @@ void int_handler(int dummy) {
   keep_running = 0;
 }
 
-void frame_counter = 0;
+int frame_counter = 0;
 char line = "_______________________________________________________________";
 int font_size = 4;
 
