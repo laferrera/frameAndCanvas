@@ -12,7 +12,7 @@ void int_handler(int dummy) {
 }
 
 int frame_counter = 0;
-char line[64] = "_______________________________________________________________";
+char line[64] = "ABCD$$$";
 int font_size = 4;
 
 void update_line() {
