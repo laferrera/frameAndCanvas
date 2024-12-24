@@ -33,7 +33,7 @@ int main(int argc, char *argv[]) {
 
   do {
     frame_counter++;
-    if (frame_counter % 100 == 0) {
+    if (frame_counter % 15 == 0) {
       update_line();
     }
 
