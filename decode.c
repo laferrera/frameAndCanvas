@@ -17,7 +17,7 @@ char line[64] = "ABCD$$$!@#!@#>>>>>>><<<<<<<";
 int font_size = 4;
 
 void update_line() {
-  for (int i = 0; i < 10; i++) {
+  for (int i = 0; i < 65; i++) {
     line[i] = (rand() % 90 + 32); // Random printable ASCII character
   }
 }
