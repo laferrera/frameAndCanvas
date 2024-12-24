@@ -48,10 +48,10 @@ int main(int argc, char *argv[]) {
       // Calculate the starting index of the line, wrapping around if necessary
       const char *offset_line = line + ((i + frame_counter) % line_length);
 
-      // Generate random colors for each line
-      uint8_t r = rand() % 256;
-      uint8_t g = rand() % 256;
-      uint8_t b = rand() % 256;
+      // Generate calm gradient colors
+      uint8_t r = (frame_counter / 10 + i * 10) % 128 + 64; // Smooth gradient red
+      uint8_t g = (frame_counter / 20 + i * 20) % 128 + 64; // Smooth gradient green
+      uint8_t b = (frame_counter / 30 + i * 30) % 128 + 64; // Smooth gradient blue
 
       // Render the line
       fbg_text_new(fbg, offset_line, 0, i * 8 * font_size, font_size, r, g, b);
