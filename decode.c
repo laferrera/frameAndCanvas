@@ -39,9 +39,15 @@ int main(int argc, char *argv[]) {
     fbg_clear(fbg, 0); // Clear screen
 
     fbg_draw(fbg);
+
     // Render the updated lines
+    int line_length = strlen(line); // Length of the line
     for (int i = 0; i < fbg->height / (8 * font_size); i++) {
-      fbg_text_new(fbg, line, 0, i * 8 * font_size, font_size, 255, 255, 255);
+      // Calculate the starting index of the line, wrapping around if necessary
+      const char *offset_line = line + (i % line_length);
+
+      // Render the line
+      fbg_text_new(fbg, offset_line, 0, i * 8 * font_size, font_size, 255, 255, 255);
     }
 
     fbg_flip(fbg); // Flip buffers
