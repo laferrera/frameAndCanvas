@@ -45,7 +45,7 @@ int main(int argc, char *argv[]) {
     int line_length = strlen(line); // Length of the line
     for (int i = 0; i < fbg->height / (8 * font_size); i++) {
       // Calculate the starting index of the line, wrapping around if necessary
-      const char *offset_line = line + frame_counter + (i % line_length);
+      const char *offset_line = line + ((i + frame_counter) % line_length);
 
       // Render the line
       fbg_text_new(fbg, offset_line, 0, i * 8 * font_size, font_size, 255, 255, 255);
