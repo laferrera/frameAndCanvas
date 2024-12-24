@@ -1,7 +1,7 @@
 #include <signal.h>
 #include <stdlib.h>
-#include <sys/stat.h>
 #include <string.h>
+#include <sys/stat.h>
 
 #include "fbg_fbdev.h" // Insert any backends from ../custom_backend/backend_name folder
 #include "fbgraphics.h"
@@ -48,8 +48,13 @@ int main(int argc, char *argv[]) {
       // Calculate the starting index of the line, wrapping around if necessary
       const char *offset_line = line + ((i + frame_counter) % line_length);
 
+      // Generate random colors for each line
+      uint8_t r = rand() % 256;
+      uint8_t g = rand() % 256;
+      uint8_t b = rand() % 256;
+
       // Render the line
-      fbg_text_new(fbg, offset_line, 0, i * 8 * font_size, font_size, 255, 255, 255);
+      fbg_text_new(fbg, offset_line, 0, i * 8 * font_size, font_size, r, g, b);
     }
 
     fbg_flip(fbg); // Flip buffers
