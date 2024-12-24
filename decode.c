@@ -14,7 +14,7 @@ void int_handler(int dummy) {
 
 int frame_counter = 0;
 int line_length = 22;
-char line[22] = "ABCD$$$!@#!@#>>>>>>><<<<<<<";
+char line[22] = "ABCD$$$!@#!@#>>><<<<<<<";
 int font_size = 4;
 
 void update_line() {
